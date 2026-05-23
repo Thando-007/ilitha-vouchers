@@ -2,7 +2,7 @@
   "name": "Ilitha Vouchers",
   "short_name": "Ilitha",
   "description": "Ilitha voucher manager",
-  "start_url": "/",
+  "start_url": "/ilitha-vouchers/",
   "display": "standalone",
   "background_color": "#0f0b08",
   "theme_color": "#f07820",
