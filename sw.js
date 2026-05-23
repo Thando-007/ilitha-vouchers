@@ -1,5 +1,5 @@
 const CACHE = 'ilitha-v1';
-const ASSETS = ['/', '/index.html', '/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png'];
+const ASSETS = ['/ilitha-vouchers/', '/ilitha-vouchers/index.html', '/ilitha-vouchers/manifest.json', '/ilitha-vouchers/icons/icon-192.png', '/ilitha-vouchers/icons/icon-512.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
