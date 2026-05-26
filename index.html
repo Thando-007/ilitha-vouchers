@@ -242,9 +242,9 @@
 <div class="stats-bar">
   <div class="stat accent"><strong id="stat-unsent">0</strong> unsent</div>
   <div class="stat"><strong id="stat-sent">0</strong> sent</div>
-  <div class="stat s10"><strong id="stat-10">0</strong> × R10</div>
-  <div class="stat s30"><strong id="stat-30">0</strong> × R30</div>
-  <div class="stat s60"><strong id="stat-60">0</strong> × R60</div>
+  <div class="stat s10"><strong id="stat-u10">0</strong> unsent R10</div>
+  <div class="stat s30"><strong id="stat-u30">0</strong> unsent R30</div>
+  <div class="stat s60"><strong id="stat-u60">0</strong> unsent R60</div>
 </div>
 
 <!-- End of day button -->
@@ -407,6 +407,9 @@ function confirmEod() {
     r30: sent.filter(v => v.denom === 30).length,
     r60: sent.filter(v => v.denom === 60).length,
     untagged: sent.filter(v => !v.denom).length,
+    unsent_r10: vouchers.filter(v => !v.sent && v.denom === 10).length,
+    unsent_r30: vouchers.filter(v => !v.sent && v.denom === 30).length,
+    unsent_r60: vouchers.filter(v => !v.sent && v.denom === 60).length,
   };
   history.unshift(summary);
   vouchers = vouchers.filter(v => !v.sent);
@@ -423,12 +426,18 @@ function renderHistory() {
   el.innerHTML = history.map(h => `
     <div class="history-day">
       <div class="history-day-title">${h.date}</div>
-      <div class="history-stats">
-        <div class="history-stat h-total"><strong>${h.total}</strong> total</div>
+      <div class="history-stats" style="margin-bottom:8px;">
+        <div class="history-stat h-total"><strong>${h.total}</strong> sent</div>
         <div class="history-stat h-10"><strong>${h.r10}</strong> × R10</div>
         <div class="history-stat h-30"><strong>${h.r30}</strong> × R30</div>
         <div class="history-stat h-60"><strong>${h.r60}</strong> × R60</div>
         ${h.untagged ? `<div class="history-stat" style="color:var(--muted)"><strong>${h.untagged}</strong> untagged</div>` : ''}
+      </div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-bottom:6px;letter-spacing:0.04em;">CARRIED OVER UNSENT</div>
+      <div class="history-stats">
+        <div class="history-stat h-10"><strong>${h.unsent_r10||0}</strong> R10</div>
+        <div class="history-stat h-30"><strong>${h.unsent_r30||0}</strong> R30</div>
+        <div class="history-stat h-60"><strong>${h.unsent_r60||0}</strong> R60</div>
       </div>
     </div>
   `).join('');
@@ -458,7 +467,9 @@ function render() {
   const unsent=vouchers.filter(v=>!v.sent).length;
   document.getElementById('stat-unsent').textContent=unsent;
   document.getElementById('stat-sent').textContent=vouchers.length-unsent;
-  [10,30,60].forEach(d=>{ document.getElementById('stat-'+d).textContent=vouchers.filter(v=>v.denom===d).length; });
+  document.getElementById('stat-u10').textContent=vouchers.filter(v=>!v.sent&&v.denom===10).length;
+  document.getElementById('stat-u30').textContent=vouchers.filter(v=>!v.sent&&v.denom===30).length;
+  document.getElementById('stat-u60').textContent=vouchers.filter(v=>!v.sent&&v.denom===60).length;
 
   const filtered=vouchers.filter(v=>{
     if(filter==='sent')       return v.sent;
