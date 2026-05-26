@@ -245,6 +245,9 @@
   <div class="stat s10"><strong id="stat-u10">0</strong> unsent R10</div>
   <div class="stat s30"><strong id="stat-u30">0</strong> unsent R30</div>
   <div class="stat s60"><strong id="stat-u60">0</strong> unsent R60</div>
+  <div class="stat s10"><strong id="stat-10">0</strong> sent R10</div>
+  <div class="stat s30"><strong id="stat-30">0</strong> sent R30</div>
+  <div class="stat s60"><strong id="stat-60">0</strong> sent R60</div>
 </div>
 
 <!-- End of day button -->
@@ -470,6 +473,9 @@ function render() {
   document.getElementById('stat-u10').textContent=vouchers.filter(v=>!v.sent&&v.denom===10).length;
   document.getElementById('stat-u30').textContent=vouchers.filter(v=>!v.sent&&v.denom===30).length;
   document.getElementById('stat-u60').textContent=vouchers.filter(v=>!v.sent&&v.denom===60).length;
+  document.getElementById('stat-10').textContent=vouchers.filter(v=>v.sent&&v.denom===10).length;
+  document.getElementById('stat-30').textContent=vouchers.filter(v=>v.sent&&v.denom===30).length;
+  document.getElementById('stat-60').textContent=vouchers.filter(v=>v.sent&&v.denom===60).length;
 
   const filtered=vouchers.filter(v=>{
     if(filter==='sent')       return v.sent;
